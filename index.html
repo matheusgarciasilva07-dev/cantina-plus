@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cantina+ | Col. Est. Profª Lindaura Ribeiro Lucas</title>
+<link rel="stylesheet" href="style.css" />
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Biblioteca para gerar QR Code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<div id="app" class="app">
+
+  <!-- ===================== TELA: LOGIN ===================== -->
+  <section id="screen-login" class="screen active">
+    <div class="top-wave">
+      <svg class="wave-svg" viewBox="0 0 430 40" preserveAspectRatio="none">
+        <path d="M0,40 L0,20 Q215,0 430,20 L430,40 Z" fill="#0a0a0a" />
+      </svg>
+      <div class="brasao">
+        <img src="assets/brasao.jpg" alt="Brasão Col. Est. Profª Lindaura Ribeiro Lucas" />
+      </div>
+      <div class="title-block">
+        <div class="logo-text">CANTINA<span class="accent">+</span></div>
+        <div class="school-name">COL. EST. PROFª LINDAURA RIBEIRO LUCAS</div>
+        <div class="school-city">S. J. DOS PINHAIS</div>
+      </div>
+    </div>
+
+    <div class="form-area">
+      <div class="form-title">ENTRAR</div>
+      <div class="form-subtitle">Use seu e-mail institucional para acessar</div>
+
+      <form id="login-form" class="form" autocomplete="off">
+        <div class="field">
+          <label for="login-email">E-MAIL ESCOLAR</label>
+          <input type="text" id="login-email" placeholder="seunome@escola.pr.gov.br" autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <label for="login-password">SENHA</label>
+          <div class="password-wrap">
+            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+            <button type="button" id="toggle-pass" class="icon-btn-inline" aria-label="Mostrar senha">
+              <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error" class="error-box hidden"></div>
+
+        <button type="submit" id="login-submit" class="btn-primary">
+          <span id="login-submit-text">ACESSAR CANTINA</span>
+          <div id="login-spinner" class="spinner hidden"></div>
+        </button>
+      </form>
+
+      <div class="hint-box">
+        💡 Teste: use qualquer e-mail <strong>@escola.pr.gov.br</strong> e senha de 4+ dígitos
+      </div>
+    </div>
+
+    <div class="footer-text">Cantina+ · Colégio Lindaura · S. J. dos Pinhais</div>
+  </section>
+
+  <!-- ===================== TELA: VERIFICAÇÃO ===================== -->
+  <section id="screen-verify" class="screen">
+    <div class="top-wave">
+      <svg class="wave-svg" viewBox="0 0 430 40" preserveAspectRatio="none">
+        <path d="M0,40 L0,20 Q215,0 430,20 L430,40 Z" fill="#0a0a0a" />
+      </svg>
+      <div class="shield-circle">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+      </div>
+      <div class="verify-title">VERIFICAÇÃO</div>
+      <div class="verify-subtitle">2 ETAPAS</div>
+    </div>
+
+    <div class="form-area">
+      <div class="verify-text">Enviamos um código de verificação para:</div>
+      <div id="verify-email" class="verify-email"></div>
+
+      <div class="demo-code-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e0151f" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+        <div>
+          <div class="demo-code-label">Código de demonstração:</div>
+          <div id="generated-code" class="demo-code"></div>
+        </div>
+      </div>
+
+      <form id="verify-form" class="form">
+        <div class="field">
+          <label>CÓDIGO DE 6 DÍGITOS</label>
+          <div class="digits-row" id="digits-row">
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="0" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="1" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="2" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="3" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="4" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit-input" data-idx="5" />
+          </div>
+        </div>
+
+        <div id="verify-error" class="error-box hidden"></div>
+
+        <button type="submit" id="verify-submit" class="btn-primary" disabled>
+          <span id="verify-submit-text">VERIFICAR E ENTRAR</span>
+          <div id="verify-spinner" class="spinner hidden"></div>
+        </button>
+      </form>
+
+      <div class="resend-row">
+        <button id="resend-btn" class="resend-btn hidden">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0151f" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0020.49 15"/></svg>
+          Reenviar código
+        </button>
+        <span id="countdown-text" class="countdown-text">Reenviar em <strong id="countdown-num">60s</strong></span>
+      </div>
+
+      <button id="back-to-login" class="link-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Voltar ao login
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: HOME / CARDÁPIO ===================== -->
+  <section id="screen-home" class="screen">
+    <header class="app-header">
+      <div class="header-left">
+        <div class="header-brasao"><img src="assets/brasao.jpg" alt="Brasão" /></div>
+        <div>
+          <div class="header-logo">CANTINA<span class="accent">+</span></div>
+          <div class="header-greeting">Olá, <span id="greeting-name"></span>!</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="cart-btn" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          <span id="cart-badge" class="cart-badge hidden">0</span>
+        </button>
+        <button id="logout-btn" class="icon-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="info-strip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20.59 13.41L11 3.83a2 2 0 00-1.42-.58H4a2 2 0 00-2 2v5.59c0 .53.21 1.04.59 1.42l9.58 9.58a2 2 0 002.82 0l6.18-6.18a2 2 0 000-2.82z"/></svg>
+      <span>Todos os itens por R$ 8,00 · Retire com QR Code!</span>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-title">CARDÁPIO DO DIA</div>
+      <div class="categories" id="categories"></div>
+    </div>
+
+    <div class="menu-list" id="menu-list"></div>
+
+    <div id="home-cta" class="bottom-cta hidden">
+      <button id="view-cart-btn" class="cta-btn">
+        <span id="home-cta-count" class="cta-count">0</span>
+        <span class="cta-label">VER SACOLA</span>
+        <span id="home-cta-price" class="cta-price">R$ 0,00</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: CARRINHO ===================== -->
+  <section id="screen-cart" class="screen">
+    <header class="sub-header">
+      <button id="cart-back" class="icon-btn-round"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <div class="sub-header-title">MINHA SACOLA</div>
+    </header>
+
+    <div class="cart-content" id="cart-content"></div>
+
+    <div id="cart-cta" class="bottom-cta hidden">
+      <button id="checkout-btn" class="cta-btn-simple">
+        <span>FINALIZAR PEDIDO</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: CHECKOUT ===================== -->
+  <section id="screen-checkout" class="screen">
+    <header class="sub-header">
+      <button id="checkout-back" class="icon-btn-round"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <div class="sub-header-title">PAGAMENTO</div>
+    </header>
+
+    <div class="checkout-content">
+      <div class="field">
+        <label for="customer-name">SEU NOME</label>
+        <input type="text" id="customer-name" placeholder="Ex: Maria Silva" />
+      </div>
+
+      <div class="field">
+        <label>FORMA DE PAGAMENTO</label>
+        <div class="payment-options" id="payment-options">
+          <button class="payment-option" data-method="pix">
+            <span class="payment-icon">⚡</span>
+            <div><div class="payment-label">PIX</div><div class="payment-desc">Aprovação instantânea</div></div>
+          </button>
+          <button class="payment-option" data-method="cartao">
+            <span class="payment-icon">💳</span>
+            <div><div class="payment-label">Cartão de Débito</div><div class="payment-desc">Débito na hora</div></div>
+          </button>
+          <button class="payment-option" data-method="dinheiro">
+            <span class="payment-icon">💵</span>
+            <div><div class="payment-label">Dinheiro</div><div class="payment-desc">Pague na cantina</div></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="total-box">
+        <div class="total-box-label">TOTAL A PAGAR</div>
+        <div id="checkout-total" class="total-box-value">R$ 0,00</div>
+        <div id="checkout-summary" class="total-box-sub"></div>
+      </div>
+    </div>
+
+    <div class="bottom-cta">
+      <button id="confirm-payment-btn" class="cta-btn-simple" disabled>
+        <span>CONFIRMAR E PAGAR</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: SUCESSO / QR ===================== -->
+  <section id="screen-success" class="screen">
+    <div class="success-content">
+      <div class="success-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="success-title">PEDIDO CONFIRMADO!</div>
+      <div class="success-subtitle">Mostre o QR Code no balcão da cantina</div>
+
+      <div class="qr-box">
+        <div id="qrcode"></div>
+        <div class="order-code-block">
+          <div id="order-code" class="order-code"></div>
+          <div class="order-code-label">CÓDIGO DO PEDIDO</div>
+        </div>
+      </div>
+
+      <div class="details-box">
+        <div class="details-title">DETALHES</div>
+        <div class="details-row"><span class="muted">Aluno: </span><span id="detail-name" class="bold"></span></div>
+        <div class="details-row"><span class="muted">Pagamento: </span><span id="detail-payment" class="bold"></span></div>
+        <div id="details-items"></div>
+        <div class="details-total-row">
+          <span class="anton">TOTAL</span>
+          <span id="detail-total" class="anton accent-text"></span>
+        </div>
+      </div>
+
+      <div class="time-warning">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e0151f" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+        <span>Vá ao balcão da cantina com este QR Code. Pronto em até <span id="max-time"></span> minutos!</span>
+      </div>
+
+      <button id="new-order-btn" class="btn-secondary-full">FAZER NOVO PEDIDO</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
